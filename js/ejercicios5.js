@@ -49,8 +49,18 @@ descuento("1000", 20);
 descuento(1000, 20);
 
 //17) Program a function that, given a valid date, determines how many years have passed until today, e.g., myFunction(new Date(1984,4,23)) will return 35 years (in 2020). 
-const fechaValida = (fecha = null) => {
-    if (fecha === null) return console.info("El valor de la fecha no es valido");
-    console.log(2026-(fecha.getFullYear())+ " anios.");
+const calcularAnios = (fecha = undefined) => {
+    if (fecha === undefined) return console.warn("No ingresaste la fecha");
+    if (!fecha instanceof "date") return console.error(`El valor "${fecha}" ingresado, No es una fecha valida`);
+
+    let hoyMenosFecha = new Date().getTime() - fecha.getTime(),
+        aniosEnMS = 1000 * 60 * 60 * 24 * 365
+        aniosHumanos = Math.floor(hoyMenosFecha/aniosEnMS);
+
+    return (Math.sign(aniosHumanos) === -1)
+    ? console.info(`Faltan ${Math.abs(aniosHumanos)} anos para el ${fecha.getFullYear()}`)
+    : (Math.sign(aniosHumanos) === 1)
+        ? console.info(`Han pasado ${aniosHumanos} anos, debe ${fecha.getFullYear()}`)
+        : console.info(`Estamos en el ano actual ${fecha.getFullYear()}`)
 }
-fechaValida(new Date(1984, 4, 23));
+calcularAnios(new Date(1984, 4, 23));
